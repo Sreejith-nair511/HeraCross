@@ -1,6 +1,51 @@
-# WasteIQ Backend — OpenCity AI Hub Server
+# WasteIQ Backend - FastAPI Server
 
-Production-ready Python backend API for WasteIQ that integrates Hugging Face inference APIs for vision/NLP, Mistral for chat, CCTV video auditing, industrial waste exchange matching via embeddings, municipal analytics & forecasting, route optimization, and authentication with role-based access control.
+Production-ready AI-powered waste management API built with FastAPI.
+
+## Docker Deployment Options
+
+### Standard Docker Compose (All Services)
+```bash
+docker-compose up -d
+```
+
+### Minimal Docker Compose (Essential Services Only)
+For simpler deployments or troubleshooting:
+```bash
+docker-compose -f docker-compose.simple.yml up -d
+```
+
+### Docker Build Options
+
+1. **Standard Build** (uses requirements.txt):
+```bash
+docker build -t wasteiq-api .
+```
+
+2. **Minimal Build** (uses requirements.deploy.txt):
+```bash
+docker build -f Dockerfile.minimal -t wasteiq-api .
+```
+
+## Deployment Files
+
+- `Dockerfile`: Standard Docker configuration
+- `Dockerfile.minimal`: Minimal Docker configuration for deployment
+- `docker-compose.yml`: Full service orchestration
+- `docker-compose.simple.yml`: Minimal service orchestration
+- `requirements.deploy.txt`: Deployment-optimized dependencies
+
+## Troubleshooting Docker Builds
+
+If you encounter build errors:
+1. Try using the minimal Dockerfile: `docker build -f Dockerfile.minimal -t wasteiq-api .`
+2. Ensure you have the latest Docker version
+3. Check your network connection (apt-get issues are often network-related)
+4. Try building on a different machine or network
+
+## Environment Variables
+
+See [.env.example](.env.example) for required environment variables.
 
 ## 🚀 Features
 
