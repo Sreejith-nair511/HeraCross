@@ -17,7 +17,10 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
-  const { isDark } = useTheme()
+  
+  // Safely use theme context with fallback
+  const themeContext = useTheme()
+  const isDark = themeContext?.isDark ?? false
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

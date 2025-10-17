@@ -75,7 +75,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("theme-contrast", highContrast.toString())
   }, [highContrast, mounted])
 
-  if (!mounted) return <>{children}</>
+  // Return null during SSR to avoid hydration mismatch
+  if (!mounted) return null
 
   return (
     <ThemeContext.Provider
@@ -97,8 +98,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useTheme() {
   const context = useContext(ThemeContext)
+  // Return a default context instead of throwing an error during SSR
   if (!context) {
-    throw new Error("useTheme must be used within ThemeProvider")
+    return {
+      isDark: false,
+      setIsDark: () => {},
+      accentColor: "green" as AccentColor,
+      setAccentColor: () => {},
+      fontSize: "normal" as FontSize,
+      setFontSize: () => {},
+      highContrast: false,
+      setHighContrast: () => {},
+    }
   }
   return context
 }
