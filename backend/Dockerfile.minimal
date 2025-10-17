@@ -6,24 +6,19 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Install system dependencies with better error handling
-RUN set -ex \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-        build-essential \
-        gcc \
-        g++ \
-        libpq-dev \
-        curl \
+# Install minimal system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /app
 
 # Copy requirements first for better caching
-COPY requirements.deploy.txt requirements.txt
+COPY requirements.txt .
 
-# Install Python dependencies
+# Install Python dependencies with error handling
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
