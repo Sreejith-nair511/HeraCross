@@ -21,7 +21,7 @@ RUN set -ex \
 WORKDIR /app
 
 # Copy requirements first for better caching
-COPY requirements.deploy.txt requirements.txt
+COPY requirements.showcase.txt requirements.txt
 
 # Install Python dependencies
 RUN pip install --upgrade pip && \

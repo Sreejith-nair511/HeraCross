@@ -14,9 +14,8 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from app.core.config import settings
 from app.core.logging import get_logger
 
-# Import routers (uncomment as routes are implemented)
-from app.api.v1.routes import auth, inference
-# from app.api.v1.routes import cctv, industrial, analytics, models, admin
+# Import only essential routers
+from app.api.v1.routes import auth
 
 logger = get_logger(__name__)
 
@@ -45,15 +44,6 @@ async def lifespan(app: FastAPI):
         logger.info("Database connection successful")
     except Exception as e:
         logger.error(f"Database connection failed: {e}")
-    
-    # Test Redis connection
-    try:
-        import redis
-        r = redis.from_url(settings.REDIS_URL)
-        r.ping()
-        logger.info("Redis connection successful")
-    except Exception as e:
-        logger.warning(f"Redis connection failed: {e}")
     
     yield
     
@@ -179,17 +169,6 @@ async def health_check():
         status["database_error"] = str(e)
         status["status"] = "degraded"
     
-    # Check Redis
-    try:
-        import redis
-        r = redis.from_url(settings.REDIS_URL)
-        r.ping()
-        status["redis"] = "connected"
-    except Exception as e:
-        status["redis"] = "disconnected"
-        status["redis_error"] = str(e)
-        status["status"] = "degraded"
-    
     return status
 
 
@@ -205,14 +184,8 @@ async def root():
     }
 
 
-# Include API routers (uncomment as routes are implemented)
+# Include only essential API routers
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
-app.include_router(inference.router, prefix="/api/v1/inference", tags=["inference"])
-# app.include_router(cctv.router, prefix="/api/v1/cctv", tags=["cctv"])
-# app.include_router(industrial.router, prefix="/api/v1/industrial", tags=["industrial"])
-# app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])
-# app.include_router(models.router, prefix="/api/v1/models", tags=["models"])
-# app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
 
 
 if __name__ == "__main__":
