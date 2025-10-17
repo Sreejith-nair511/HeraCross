@@ -15,7 +15,7 @@ def main():
     
     # Set environment variables for local development
     os.environ.setdefault("DATABASE_URL", "sqlite:///./wasteiq.db")
-    os.environ.setdefault("SECRET_KEY", "showcase-secret-key-for-demo-purposes-only")
+    os.environ.setdefault("SECRET_KEY", "showcase-secret-key-for-demo-purposes-only-change-in-production")
     os.environ.setdefault("DEBUG", "True")
     
     print("Starting WasteIQ Backend for showcase...")
@@ -24,11 +24,11 @@ def main():
     print("Health Check: http://localhost:8000/health")
     print("Press CTRL+C to stop\n")
     
-    # Run the FastAPI application
+    # Run the FastAPI application with showcase configuration
     try:
         subprocess.run([
             sys.executable, "-m", "uvicorn", 
-            "app.main:app", 
+            "app.main_showcase:app", 
             "--host", "0.0.0.0", 
             "--port", "8000",
             "--reload"
