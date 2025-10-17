@@ -1,0 +1,12 @@
+# Minimal requirements with compatible versions
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+httpx
+python-dateutil
