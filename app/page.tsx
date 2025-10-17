@@ -13,14 +13,18 @@ import MunicipalInsights from "@/components/pages/municipal-insights"
 import AIChat from "@/components/pages/ai-chat"
 import Settings from "@/components/pages/settings"
 import Documentation from "@/components/pages/documentation"
+import Leaderboard from "@/components/pages/leaderboard"
+import GarbageMap from "@/components/pages/garbage-map"
 
 type Section =
   | "dashboard"
   | "ai-models"
   | "waste-classifier"
+  | "leaderboard"
   | "industrial-exchange"
   | "cctv-audit"
   | "municipal-insights"
+  | "garbage-map"
   | "ai-chat"
   | "settings"
   | "documentation"
@@ -28,6 +32,10 @@ type Section =
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(true)
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen)
+  }
 
   const renderContent = () => {
     switch (activeSection) {
@@ -37,12 +45,16 @@ export default function Home() {
         return <AIModelGallery />
       case "waste-classifier":
         return <WasteClassifier />
+      case "leaderboard":
+        return <Leaderboard />
       case "industrial-exchange":
         return <IndustrialExchange />
       case "cctv-audit":
         return <CCTVAudit />
       case "municipal-insights":
         return <MunicipalInsights />
+      case "garbage-map":
+        return <GarbageMap />
       case "ai-chat":
         return <AIChat />
       case "settings":
@@ -56,9 +68,14 @@ export default function Home() {
 
   return (
     <div className="flex h-screen bg-background">
-      <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} sidebarOpen={sidebarOpen} />
+      <Sidebar 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection} 
+        sidebarOpen={sidebarOpen} 
+        onToggleSidebar={toggleSidebar}
+      />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <TopNav onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <TopNav onToggleSidebar={toggleSidebar} />
         <main className="flex-1 overflow-auto fade-in">{renderContent()}</main>
       </div>
       <FloatingActionButton />

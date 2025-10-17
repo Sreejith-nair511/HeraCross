@@ -1,4 +1,5 @@
 "use client"
+import { useEffect } from "react"
 import {
   ChevronRight,
   LayoutDashboard,
@@ -10,33 +11,50 @@ import {
   MessageSquare,
   Settings,
   BookOpen,
+  Award,
+  Trophy,
+  Map,
+  X
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/components/ui/use-mobile"
 
 interface SidebarProps {
   activeSection: string
   onSectionChange: (section: any) => void
   sidebarOpen: boolean
+  onToggleSidebar: () => void
 }
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "ai-models", label: "AI Models", icon: Zap },
   { id: "waste-classifier", label: "Waste Classifier", icon: Trash2 },
+  { id: "leaderboard", label: "Leaderboard", icon: Trophy },
   { id: "industrial-exchange", label: "Industrial Exchange", icon: Store },
   { id: "cctv-audit", label: "CCTV Audit", icon: Video },
   { id: "municipal-insights", label: "Municipal Insights", icon: BarChart3 },
+  { id: "garbage-map", label: "Garbage Map", icon: Map },
   { id: "ai-chat", label: "TrashGPT", icon: MessageSquare },
   { id: "settings", label: "Settings", icon: Settings },
   { id: "documentation", label: "Documentation", icon: BookOpen },
 ]
 
-export default function Sidebar({ activeSection, onSectionChange, sidebarOpen }: SidebarProps) {
+export default function Sidebar({ activeSection, onSectionChange, sidebarOpen, onToggleSidebar }: SidebarProps) {
+  const isMobile = useIsMobile()
+
+  // Close sidebar on mobile when a section is selected
+  useEffect(() => {
+    if (isMobile && sidebarOpen) {
+      onToggleSidebar()
+    }
+  }, [activeSection, isMobile, sidebarOpen, onToggleSidebar])
+
   return (
     <aside
       className={cn(
         "bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col",
-        sidebarOpen ? "w-64" : "w-20",
+        isMobile ? (sidebarOpen ? "fixed inset-y-0 z-50 w-64" : "hidden") : (sidebarOpen ? "w-64" : "w-20"),
       )}
     >
       {/* Logo */}
@@ -47,6 +65,15 @@ export default function Sidebar({ activeSection, onSectionChange, sidebarOpen }:
           </div>
           {sidebarOpen && <span className="font-bold text-lg text-foreground">OpenCity</span>}
         </div>
+        {isMobile && sidebarOpen && (
+          <button 
+            onClick={onToggleSidebar}
+            className="p-1 rounded-md hover:bg-sidebar-accent/20"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Menu Items */}

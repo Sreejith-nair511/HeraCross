@@ -1,0 +1,18 @@
+path: trash-detector
+train: trash-detector_train.txt
+val: trash-detector_val.txt
+test: trash-detector_test.txt
+names:
+  0: trash
+  1: eel
+  2: rov
+  3: starfish
+  4: fish
+  5: crab
+  6: plant
+  7: animal_misc
+  8: shells
+  9: bird
+  10: shark
+  11: jellyfish
+  12: ray

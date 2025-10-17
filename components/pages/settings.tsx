@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { User, Bell, Lock } from "lucide-react"
+import { User, Bell, Lock, Phone } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import ThemeCustomizer from "@/components/theme-customizer"
 import { motion } from "framer-motion"
@@ -24,6 +24,16 @@ export default function Settings() {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
+  }
+
+  const handleSendTestSMS = () => {
+    // Mock SMS functionality
+    alert("Test SMS sent to 8296****37! This would integrate with an SMS gateway in production.")
+  }
+
+  const handleCallTestIVR = () => {
+    // Mock IVR functionality
+    alert("Test IVR call initiated to 8296****37! This would integrate with a telephony service in production.")
   }
 
   return (
@@ -53,6 +63,47 @@ export default function Settings() {
               <Input placeholder="your@email.com" type="email" className="mt-2 bg-input border-border/50" />
             </div>
             <Button className="bg-neon-green hover:bg-neon-green/90 text-background">{t("save")}</Button>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* SMS/IVR Integration */}
+      <motion.div variants={itemVariants}>
+        <Card className="bg-card/40 backdrop-blur-md border border-border/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Phone className="w-5 h-5" />
+              SMS/IVR Integration
+            </CardTitle>
+            <CardDescription>Configure phone notifications and voice services</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">Phone Number</label>
+              <Input 
+                placeholder="8296****37" 
+                defaultValue="8296****37"
+                className="mt-2 bg-input border-border/50" 
+                disabled
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                className="flex-1 bg-neon-green hover:bg-neon-green/90 text-background"
+                onClick={handleSendTestSMS}
+              >
+                Send Test SMS
+              </Button>
+              <Button 
+                className="flex-1 bg-neon-cyan hover:bg-neon-cyan/90 text-background"
+                onClick={handleCallTestIVR}
+              >
+                Test IVR Call
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              In production, this would integrate with SMS gateways and telephony services to send notifications and handle voice interactions.
+            </p>
           </CardContent>
         </Card>
       </motion.div>

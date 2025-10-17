@@ -1,36 +1,6 @@
 "use client"
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Zap, Leaf, TrendingUp, AlertCircle } from "lucide-react"
-
-const wasteData = [
-  { month: "Jan", collected: 4000, recycled: 2400 },
-  { month: "Feb", collected: 3000, recycled: 1398 },
-  { month: "Mar", collected: 2000, recycled: 9800 },
-  { month: "Apr", collected: 2780, recycled: 3908 },
-  { month: "May", collected: 1890, recycled: 4800 },
-  { month: "Jun", collected: 2390, recycled: 3800 },
-]
-
-const segregationData = [
-  { name: "Organic", value: 35, color: "#22c55e" },
-  { name: "Plastic", value: 25, color: "#06b6d4" },
-  { name: "Metal", value: 20, color: "#8b5cf6" },
-  { name: "Paper", value: 20, color: "#f59e0b" },
-]
 
 export default function Dashboard() {
   return (
@@ -45,8 +15,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-card/40 backdrop-blur-md border border-border/50 shadow-lg shadow-neon-green/20 hover:shadow-neon-green/40 transition-shadow duration-300">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Zap className="w-4 h-4 text-neon-green" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Total Collected
             </CardTitle>
           </CardHeader>
@@ -58,8 +27,7 @@ export default function Dashboard() {
 
         <Card className="bg-card/40 backdrop-blur-md border border-border/50 shadow-lg shadow-neon-cyan/20 hover:shadow-neon-cyan/40 transition-shadow duration-300">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Leaf className="w-4 h-4 text-neon-cyan" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Recycling Rate
             </CardTitle>
           </CardHeader>
@@ -71,8 +39,7 @@ export default function Dashboard() {
 
         <Card className="bg-card/40 backdrop-blur-md border border-border/50 shadow-lg shadow-neon-violet/20 hover:shadow-neon-violet/40 transition-shadow duration-300">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-neon-violet" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Segregation
             </CardTitle>
           </CardHeader>
@@ -84,8 +51,7 @@ export default function Dashboard() {
 
         <Card className="bg-card/40 backdrop-blur-md border border-border/50">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-destructive" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               Alerts
             </CardTitle>
           </CardHeader>
@@ -96,51 +62,41 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="bg-card/40 backdrop-blur-md border border-border/50 lg:col-span-2">
+      {/* External AI Models */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="bg-card/40 backdrop-blur-md border border-border/50">
           <CardHeader>
-            <CardTitle>Waste Trends</CardTitle>
-            <CardDescription>Monthly waste collection and recycling</CardDescription>
+            <CardTitle>RealWaste Prediction</CardTitle>
+            <CardDescription>Deep learning waste prediction model</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={wasteData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis stroke="#666" />
-                <YAxis stroke="#666" />
-                <Tooltip contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #333" }} />
-                <Legend />
-                <Line type="monotone" dataKey="collected" stroke="#22c55e" strokeWidth={2} />
-                <Line type="monotone" dataKey="recycled" stroke="#06b6d4" strokeWidth={2} />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="h-[450px]">
+              <iframe
+                src="https://silverblade254-realwaste-prediction-deep-learning.hf.space"
+                frameBorder="0"
+                width="100%"
+                height="450"
+                className="rounded-lg"
+              ></iframe>
+            </div>
           </CardContent>
         </Card>
 
         <Card className="bg-card/40 backdrop-blur-md border border-border/50">
           <CardHeader>
-            <CardTitle>Segregation</CardTitle>
-            <CardDescription>Waste type distribution</CardDescription>
+            <CardTitle>Garbage Classifier</CardTitle>
+            <CardDescription>AI-powered waste classification</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={segregationData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {segregationData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="h-[450px]">
+              <iframe
+                src="https://bhushanmehar-garbage-classifier-app.hf.space"
+                frameBorder="0"
+                width="100%"
+                height="450"
+                className="rounded-lg"
+              ></iframe>
+            </div>
           </CardContent>
         </Card>
       </div>

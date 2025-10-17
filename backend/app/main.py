@@ -15,7 +15,8 @@ from app.core.config import settings
 from app.core.logging import get_logger
 
 # Import routers (uncomment as routes are implemented)
-# from app.api.v1.routes import auth, inference, cctv, industrial, analytics, models, admin
+from app.api.v1.routes import auth, inference
+# from app.api.v1.routes import cctv, industrial, analytics, models, admin
 
 logger = get_logger(__name__)
 
@@ -205,8 +206,8 @@ async def root():
 
 
 # Include API routers (uncomment as routes are implemented)
-# app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
-# app.include_router(inference.router, prefix="/api/v1/inference", tags=["inference"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
+app.include_router(inference.router, prefix="/api/v1/inference", tags=["inference"])
 # app.include_router(cctv.router, prefix="/api/v1/cctv", tags=["cctv"])
 # app.include_router(industrial.router, prefix="/api/v1/industrial", tags=["industrial"])
 # app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])

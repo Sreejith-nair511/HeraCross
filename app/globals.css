@@ -151,30 +151,32 @@
 }
 
 /* Removed @layer components to fix Tailwind v4 compatibility issues */
-/* Animated futuristic background with circuit mesh pattern */
+/* Simplified animated background for better performance */
 .animated-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
   overflow: hidden;
   background: linear-gradient(45deg, transparent 30%, rgba(57, 255, 20, 0.03) 50%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(0, 255, 255, 0.03) 50%, transparent 70%),
-    linear-gradient(90deg, transparent 40%, rgba(138, 43, 226, 0.02) 60%, transparent 80%);
-  background-size: 200% 200%, 200% 200%, 300% 300%;
-  animation: meshShift 15s ease-in-out infinite;
+    linear-gradient(-45deg, transparent 30%, rgba(0, 255, 255, 0.03) 50%, transparent 70%);
+  background-size: 200% 200%;
 }
 
+/* Optional: Keep a very subtle animation if needed */
+/*
 @keyframes meshShift {
   0% {
-    background-position: 0% 0%, 0% 0%, 0% 0%;
-  }
-  50% {
-    background-position: 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0% 0%, 0% 0%;
   }
   100% {
-    background-position: 0% 0%, 0% 0%, 0% 0%;
+    background-position: 100% 100%, 100% 100%;
   }
 }
+
+.animated-bg {
+  animation: meshShift 30s ease-in-out infinite alternate;
+}
+*/
 
 /* Smooth fade-in animation for page transitions */
 .fade-in {
