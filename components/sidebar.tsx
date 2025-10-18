@@ -43,19 +43,23 @@ const menuItems = [
 export default function Sidebar({ activeSection, onSectionChange, sidebarOpen, onToggleSidebar }: SidebarProps) {
   const isMobile = useIsMobile()
 
-  // Close sidebar on mobile when a section is selected
-  useEffect(() => {
+  // Close sidebar on mobile when a section is selected (with delay to prevent flickering)
+  const handleSectionChange = (sectionId: string) => {
+    onSectionChange(sectionId)
+    // Only close sidebar on mobile after a short delay to prevent flickering
     if (isMobile && sidebarOpen) {
-      onToggleSidebar()
+      setTimeout(() => {
+        onToggleSidebar()
+      }, 150)
     }
-  }, [activeSection, isMobile, sidebarOpen, onToggleSidebar])
+  }
 
   return (
     <>
       {/* Backdrop for mobile */}
       {isMobile && sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40"
           onClick={onToggleSidebar}
         />
       )}
@@ -64,15 +68,15 @@ export default function Sidebar({ activeSection, onSectionChange, sidebarOpen, o
         className={cn(
           "bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col",
           isMobile 
-            ? (sidebarOpen 
-                ? "fixed inset-y-0 z-50 w-64 transform translate-x-0" 
-                : "fixed inset-y-0 z-50 w-64 transform -translate-x-full")
+            ? "fixed inset-y-0 z-50 w-64" 
             : (sidebarOpen ? "w-64" : "w-20"),
+          isMobile && !sidebarOpen ? "transform -translate-x-full" : "",
+          isMobile && sidebarOpen ? "transform translate-x-0" : "",
         )}
       >
         {/* Logo */}
         <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
-          <div className={cn("flex items-center gap-2", !sidebarOpen && "justify-center w-full")}>
+          <div className={cn("flex items-center gap-2", !sidebarOpen && !isMobile && "justify-center w-full")}>
             <div className="w-8 h-8 bg-gradient-to-br from-neon-green to-neon-cyan rounded-lg flex items-center justify-center">
               <Zap className="w-5 h-5 text-background" />
             </div>
@@ -98,7 +102,7 @@ export default function Sidebar({ activeSection, onSectionChange, sidebarOpen, o
               return (
                 <li key={item.id}>
                   <button
-                    onClick={() => onSectionChange(item.id)}
+                    onClick={() => handleSectionChange(item.id)}
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200",
                       isActive

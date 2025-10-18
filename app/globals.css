@@ -369,3 +369,14 @@ button, a, input, select, textarea {
     -webkit-text-size-adjust: 100%;
   }
 }
+
+/* Fix for mobile sidebar visibility */
+@media (max-width: 768px) {
+  .sidebar-mobile-open {
+    transform: translateX(0) !important;
+  }
+  
+  .sidebar-mobile-closed {
+    transform: translateX(-100%) !important;
+  }
+}

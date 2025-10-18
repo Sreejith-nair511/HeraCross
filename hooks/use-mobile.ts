@@ -6,6 +6,7 @@ export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
 
   React.useEffect(() => {
+    // Set initial value
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     }
@@ -13,12 +14,24 @@ export function useIsMobile() {
     // Check on mount
     checkIsMobile()
 
+    // Throttle the resize handler
+    let timeoutId: NodeJS.Timeout | null = null
+    const handleResize = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+      timeoutId = setTimeout(checkIsMobile, 150)
+    }
+
     // Add event listener
-    window.addEventListener('resize', checkIsMobile)
+    window.addEventListener('resize', handleResize, { passive: true })
     
     // Cleanup
     return () => {
-      window.removeEventListener('resize', checkIsMobile)
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
