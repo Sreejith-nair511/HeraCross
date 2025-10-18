@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Sidebar from "@/components/sidebar"
 import TopNav from "@/components/top-nav"
 import FloatingActionButton from "@/components/floating-action-button"
@@ -15,6 +15,7 @@ import Settings from "@/components/pages/settings"
 import Documentation from "@/components/pages/documentation"
 import Leaderboard from "@/components/pages/leaderboard"
 import GarbageMap from "@/components/pages/garbage-map"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 type Section =
   | "dashboard"
@@ -32,6 +33,16 @@ type Section =
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const isMobile = useIsMobile()
+
+  // Handle sidebar state based on screen size
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false)
+    } else {
+      setSidebarOpen(true)
+    }
+  }, [isMobile])
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen)
@@ -76,7 +87,9 @@ export default function Home() {
       />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopNav onToggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-auto fade-in">{renderContent()}</main>
+        <main className="flex-1 overflow-auto fade-in p-4 md:p-6">
+          {renderContent()}
+        </main>
       </div>
       <FloatingActionButton />
     </div>

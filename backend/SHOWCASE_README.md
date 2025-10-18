@@ -15,7 +15,7 @@ pip install -r requirements.showcase.txt
 python run_local.py
 
 # Option 2: Direct uvicorn command
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn app.main_showcase:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 3. **Access the application**:
@@ -45,7 +45,7 @@ For simplicity, the following components have been removed:
 
 For showcase purposes, the application will use default values:
 - `DATABASE_URL`: sqlite:///./wasteiq.db
-- `SECRET_KEY`: showcase-secret-key-for-demo-purposes-only
+- `SECRET_KEY`: showcase-secret-key-for-demo-purposes-only-change-in-production
 - `DEBUG`: True
 
 ## API Endpoints
@@ -55,6 +55,14 @@ For showcase purposes, the application will use default values:
 - `GET /health` - Health check
 - `GET /` - API information
 
+## Docker Deployment
+
+For Docker deployment, use the showcase Dockerfile:
+```bash
+docker build -f Dockerfile.showcase -t wasteiq-showcase .
+docker run -p 8000:8000 wasteiq-showcase
+```
+
 ## Note
 
-This showcase version is intended for demonstration purposes only and lacks the full functionality of the production version.
+This showcase version is intended for demonstration purposes only and lacks the full functionality of the production version. It uses SQLite instead of PostgreSQL and removes complex dependencies to make deployment easier.

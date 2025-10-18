@@ -147,6 +147,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Improve mobile touch targets */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
   }
 }
 
@@ -195,13 +198,13 @@
 /* Floating action button styles */
 .fab {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 3.5rem;
-  height: 3.5rem;
+  bottom: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 9999px;
   background: linear-gradient(135deg, #39ff14, #00ffff);
-  box-shadow: 0 10px 25px -5px rgba(57, 255, 20, 0.5);
+  box-shadow: 0 4px 12px -2px rgba(57, 255, 20, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -214,8 +217,8 @@
 }
 
 .fab:hover {
-  box-shadow: 0 10px 25px -5px rgba(57, 255, 20, 0.7);
-  transform: scale(1.1);
+  box-shadow: 0 6px 16px -2px rgba(57, 255, 20, 0.7);
+  transform: scale(1.05);
 }
 
 .fab:disabled {
@@ -307,5 +310,62 @@ input:focus-visible {
     --chart-3: oklch(0.65 0.25 30);
     --chart-4: oklch(0.5 0.3 200);
     --chart-5: oklch(0.58 0.3 160);
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .fab {
+    bottom: 1rem;
+    right: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  
+  /* Reduce padding on mobile */
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  .p-6 {
+    padding: 1rem;
+  }
+  
+  /* Adjust font sizes for better readability on small screens */
+  body {
+    font-size: 0.875rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  h3 {
+    font-size: 1.125rem;
+  }
+}
+
+/* Ensure proper viewport height on mobile devices */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Improve touch target sizes for mobile */
+button, a, input, select, textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent text size adjustment on iOS */
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  body {
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
   }
 }

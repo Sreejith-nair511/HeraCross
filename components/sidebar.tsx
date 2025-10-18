@@ -17,7 +17,7 @@ import {
   X
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useIsMobile } from "@/components/ui/use-mobile"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface SidebarProps {
   activeSection: string
@@ -51,69 +51,83 @@ export default function Sidebar({ activeSection, onSectionChange, sidebarOpen, o
   }, [activeSection, isMobile, sidebarOpen, onToggleSidebar])
 
   return (
-    <aside
-      className={cn(
-        "bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col",
-        isMobile ? (sidebarOpen ? "fixed inset-y-0 z-50 w-64" : "hidden") : (sidebarOpen ? "w-64" : "w-20"),
+    <>
+      {/* Backdrop for mobile */}
+      {isMobile && sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onToggleSidebar}
+        />
       )}
-    >
-      {/* Logo */}
-      <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
-        <div className={cn("flex items-center gap-2", !sidebarOpen && "justify-center w-full")}>
-          <div className="w-8 h-8 bg-gradient-to-br from-neon-green to-neon-cyan rounded-lg flex items-center justify-center">
-            <Zap className="w-5 h-5 text-background" />
-          </div>
-          {sidebarOpen && <span className="font-bold text-lg text-foreground">OpenCity</span>}
-        </div>
-        {isMobile && sidebarOpen && (
-          <button 
-            onClick={onToggleSidebar}
-            className="p-1 rounded-md hover:bg-sidebar-accent/20"
-            aria-label="Close sidebar"
-          >
-            <X className="w-5 h-5" />
-          </button>
+      
+      <aside
+        className={cn(
+          "bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col",
+          isMobile 
+            ? (sidebarOpen 
+                ? "fixed inset-y-0 z-50 w-64 transform translate-x-0" 
+                : "fixed inset-y-0 z-50 w-64 transform -translate-x-full")
+            : (sidebarOpen ? "w-64" : "w-20"),
         )}
-      </div>
-
-      {/* Menu Items */}
-      <nav className="flex-1 overflow-y-auto py-4 px-2">
-        <ul className="space-y-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon
-            const isActive = activeSection === item.id
-            return (
-              <li key={item.id}>
-                <button
-                  onClick={() => onSectionChange(item.id)}
-                  className={cn(
-                    "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200",
-                    isActive
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-neon-green/30"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/20",
-                  )}
-                  title={!sidebarOpen ? item.label : undefined}
-                >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
-                  {sidebarOpen && (
-                    <>
-                      <span className="flex-1 text-left text-sm font-medium">{item.label}</span>
-                      {isActive && <ChevronRight className="w-4 h-4" />}
-                    </>
-                  )}
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
-
-      {/* Footer */}
-      <div className="p-4 border-t border-sidebar-border">
-        <div className={cn("text-xs text-sidebar-foreground/60", !sidebarOpen && "text-center")}>
-          {sidebarOpen ? "v1.0.0" : ""}
+      >
+        {/* Logo */}
+        <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
+          <div className={cn("flex items-center gap-2", !sidebarOpen && "justify-center w-full")}>
+            <div className="w-8 h-8 bg-gradient-to-br from-neon-green to-neon-cyan rounded-lg flex items-center justify-center">
+              <Zap className="w-5 h-5 text-background" />
+            </div>
+            {(sidebarOpen || !isMobile) && <span className="font-bold text-lg text-foreground">OpenCity</span>}
+          </div>
+          {isMobile && sidebarOpen && (
+            <button 
+              onClick={onToggleSidebar}
+              className="p-1 rounded-md hover:bg-sidebar-accent/20"
+              aria-label="Close sidebar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
-      </div>
-    </aside>
+
+        {/* Menu Items */}
+        <nav className="flex-1 overflow-y-auto py-4 px-2">
+          <ul className="space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon
+              const isActive = activeSection === item.id
+              return (
+                <li key={item.id}>
+                  <button
+                    onClick={() => onSectionChange(item.id)}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200",
+                      isActive
+                        ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-neon-green/30"
+                        : "text-sidebar-foreground hover:bg-sidebar-accent/20",
+                    )}
+                    title={!sidebarOpen && !isMobile ? item.label : undefined}
+                  >
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    {(sidebarOpen || !isMobile) && (
+                      <>
+                        <span className="flex-1 text-left text-sm font-medium">{item.label}</span>
+                        {isActive && <ChevronRight className="w-4 h-4" />}
+                      </>
+                    )}
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-sidebar-border">
+          <div className={cn("text-xs text-sidebar-foreground/60", (!sidebarOpen && !isMobile) && "text-center")}>
+            {(sidebarOpen || !isMobile) ? "v1.0.0" : ""}
+          </div>
+        </div>
+      </aside>
+    </>
   )
 }

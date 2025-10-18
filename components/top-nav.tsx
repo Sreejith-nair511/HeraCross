@@ -7,6 +7,7 @@ import ThemeToggle from "@/components/theme-toggle"
 import LanguageSelector from "@/components/language-selector"
 import Logo from "@/components/logo"
 import { useLanguage } from "@/contexts/language-context"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface TopNavProps {
   onToggleSidebar: () => void
@@ -14,10 +15,11 @@ interface TopNavProps {
 
 export default function TopNav({ onToggleSidebar }: TopNavProps) {
   const { t } = useLanguage()
+  const isMobile = useIsMobile()
 
   return (
-    <header className="bg-card/50 backdrop-blur-md border-b border-border/50 px-6 py-4 flex items-center justify-between">
-      <div className="flex items-center gap-4 flex-1">
+    <header className="bg-card/50 backdrop-blur-md border-b border-border/50 px-4 py-3 flex items-center justify-between">
+      <div className="flex items-center gap-2 md:gap-4 flex-1">
         <Button
           variant="ghost"
           size="icon"
@@ -30,18 +32,20 @@ export default function TopNav({ onToggleSidebar }: TopNavProps) {
 
         <Logo size="sm" variant="icon" />
 
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder={t("search")}
-            className="pl-10 bg-input border-border/50 text-foreground placeholder:text-muted-foreground focus-ring"
-            aria-label="Search"
-          />
-        </div>
+        {!isMobile && (
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder={t("search")}
+              className="pl-10 bg-input border-border/50 text-foreground placeholder:text-muted-foreground focus-ring"
+              aria-label="Search"
+            />
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-4">
-        <LanguageSelector />
+      <div className="flex items-center gap-2 md:gap-4">
+        {!isMobile && <LanguageSelector />}
         <ThemeToggle />
         <Button
           variant="ghost"
